@@ -1,0 +1,59 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Appointment {
+  appointmentDate DateTime?
+  createdAt       DateTime  @default(now())
+  description     String?
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  updatedAt       DateTime  @updatedAt
+}
+
+model Dispatch {
+  createdAt      DateTime  @default(now())
+  dispatchDate   DateTime?
+  dispatchNumber String?
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  updatedAt      DateTime  @updatedAt
+}
+
+model Order {
+  createdAt   DateTime         @default(now())
+  id          String           @id @default(auto()) @map("_id") @db.ObjectId
+  orderDate   DateTime?
+  orderNumber String?
+  status      EnumOrderStatus?
+  totalPrice  Float?
+  updatedAt   DateTime         @updatedAt
+}
+
+model Report {
+  createdAt   DateTime  @default(now())
+  createdDate DateTime?
+  data        Json?
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  reportName  String?
+  updatedAt   DateTime  @updatedAt
+}
+
+model User {
+  createdAt DateTime @default(now())
+  email     String?  @unique
+  firstName String?
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
+
+enum EnumOrderStatus {
+  Option1
+}
